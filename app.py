@@ -70,14 +70,18 @@ class SupabaseAPI:
     def insert(self, table: str, data: dict):
         """Veri ekle"""
         try:
+            # Kayıt sonrası veriyi geri almak için 'Prefer' başlığı ekliyoruz
+            headers = self.headers.copy()
+            headers['Prefer'] = 'return=representation'
+
             response = requests.post(
                 f'{self.url}/rest/v1/{table}',
-                headers=self.headers,
+                headers=headers,
                 json=data,
                 timeout=5,
                 verify=False  # ✅ SSL doğrulaması kapalı
             )
-            if response.status_code == 201:
+            if response.status_code in [200, 201]:
                 return True, response.json()
             else:
                 # Hata detayları
@@ -937,7 +941,7 @@ def handle_words():
             'meaning': meaning,
             'sentence': sentence,
             'source': source,
-            'created_at': datetime.utcnow().isoformat()
+            'created_at': datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S.%fZ')
         })
 
         if success:
@@ -985,7 +989,7 @@ def handle_notes():
         success, result = supabase.insert('notes', {
             'title': title,
             'note': note,
-            'created_at': datetime.utcnow().isoformat()
+            'created_at': datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S.%fZ')
         })
 
         if success:
