@@ -513,7 +513,7 @@ HTML_TEMPLATE = '''
     <div class="container">
         <!-- HEADER -->
         <div class="header">
-            <h1>📚 Vocabulary Manager</h1>
+            <h1>THY WRDS PROJECT</h1>
             <div class="header-buttons">
                 <button class="btn btn-primary" onclick="refreshData()">🔄 Yenile</button>
             </div>
